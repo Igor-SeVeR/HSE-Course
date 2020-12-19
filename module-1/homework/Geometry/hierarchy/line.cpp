@@ -13,7 +13,7 @@ Point Line::get_second_point() const {
 }
 
 bool operator==(const Line& left, const Line& right) {
-    double left_a_coeff = left.get_first_point().y - left.get_second_point.y;
+    double left_a_coeff = left.get_first_point().y - left.get_second_point().y;
     double left_b_coeff = left.get_second_point().x - left.get_first_point().x;
     double left_c_coeff = -(left_a_coeff * left.get_first_point().x + left_b_coeff * left.get_first_point().y);
     double ans_first_point = left_a_coeff * right.get_first_point().x
