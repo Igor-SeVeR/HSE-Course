@@ -16,4 +16,4 @@ public:
 private:
     Point first;
     Point second;
-}
+};

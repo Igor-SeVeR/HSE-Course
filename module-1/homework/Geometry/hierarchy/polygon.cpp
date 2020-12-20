@@ -28,7 +28,7 @@ double Polygon::area() {
 }
 
 bool Polygon::isSimilar(const Shape& another, bool need_to_diff) {
-    Polygon another_polygon = dynamic_cast<Polygon> another;
+    Polygon another_polygon = dynamic_cast<Polygon>(another);
     if (verticesCount() != another_polygon.verticesCount())
         return 0;
     double diff = 1;
@@ -88,14 +88,14 @@ bool Polygon::isCongruentTo(const Shape& another) {
 }
 
 bool Polygon::isSimilarTo(const Shape& another) {
-    return isSimilar(const Shape& another, true);
+    return isSimilar(Shape& another, true);
 }
 
 bool Polygon::containsPoint(Point point) {
     double ans = 0;
     std::vector<Point> n_point = getVertices();
     for (size_t i = 0; i < verticesCount(); i++) {
-        n_point[i] -= point;
+        n_point[i] = n_point[i] - point;
     }
     for (size_t i = 0; i < verticesCount(); i++) {
         if (fabs(Point::crossProduct(vertices[i], vertices[(i + 1) % verticesCount()])) < Consts::EPS)
@@ -103,10 +103,10 @@ bool Polygon::containsPoint(Point point) {
         ans += atan2(Point::crossProduct(vertices[i], vertices[(i + 1) % verticesCount()]), 
                 Point::scalarProduct(vertices[i], vertices[(i + 1) % verticesCount()]));
     }
-    return (fabs(2 * Consts::PI - fabs(ans)) < eps);
+    return (fabs(2 * Consts::PI - fabs(ans)) < Consts::EPS);
 }
 
-static signed char Polygon::sign(double value) {
+static signed char sign(double value) {
     if (fabs(value) < Consts::EPS)
         return 0;
     if (value > 0)
@@ -138,16 +138,16 @@ void Polygon::rotate(Point center, double angle) {
 
 void Polygon::reflex(Point center) {
     for (size_t i = 0; i < verticesCount(); i++) {
-        vertices[i].x = 2 * center.x - v[i].x;
-        vertices[i].y = 2 * center.y - v[i].y;
+        vertices[i].x = 2 * center.x - vertices[i].x;
+        vertices[i].y = 2 * center.y - vertices[i].y;
     }
 }
 
 void Polygon::reflex(Line axis) {
     double axis_a_coeff = axis.get_first_point().y - axis.get_second_point().y;
     double axis_b_coeff = axis.get_second_point().x - axis.get_first_point().x;
-    double axis_c_coeff = -(left_a_coeff * axis.get_first_point().x + left_b_coeff * axis.get_first_point().y);
-    Point axis_normal(axis_a_coef, axis_b_coeff);
+    double axis_c_coeff = -(axis_a_coeff * axis.get_first_point().x + axis_b_coeff * axis.get_first_point().y);
+    Point axis_normal(axis_a_coeff, axis_b_coeff);
     double axis_len = Point::pointDistance(axis_normal, {0, 0});
     axis_normal.x /= axis_len;
     axis_normal.y /= axis_len;
@@ -158,20 +158,20 @@ void Polygon::reflex(Line axis) {
         vec_nomal.x *= orient_dist;
         vec_nomal.y *= orient_dist;
         Point center = vertices[i] - vec_nomal;
-        vertices[i].x = 2 * center.x - v[i].x;
-        vertices[i].y = 2 * center.y - v[i].y;
+        vertices[i].x = 2 * center.x - vertices[i].x;
+        vertices[i].y = 2 * center.y - vertices[i].y;
     }
 }
 
 void Polygon::scale(Point center, double coefficient) {
     for (size_t i = 0; i < verticesCount(); i++) {
-        vertices[i].x = scale * (vertices[i].x - center.x) + center.x;
-        vertices[i].y = scale * (vertices[i].y - center.y) + center.y;
+        vertices[i].x = coefficient * (vertices[i].x - center.x) + center.x;
+        vertices[i].y = coefficient * (vertices[i].y - center.y) + center.y;
     }
 }
 
 bool Polygon::operator==(const Shape& another) {
-    Polygon another_polygon = dynamic_cast<Polygon> another;
+    Polygon another_polygon = dynamic_cast<Polygon>(another);
     if (verticesCount() != another_polygon.verticesCount())
         return 0;
     size_t n = verticesCount();

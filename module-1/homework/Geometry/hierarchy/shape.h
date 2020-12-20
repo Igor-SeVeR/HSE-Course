@@ -1,4 +1,4 @@
-#include "list.h"
+#include "line.h"
 #include "point.h"
 #include "consts.h"
 #include <vector>
@@ -19,4 +19,4 @@ public:
     virtual void scale(Point center, double coefficient) = 0;
      
     virtual bool operator==(const Shape& another) = 0;
-}
+};

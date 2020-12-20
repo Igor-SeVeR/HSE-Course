@@ -2,7 +2,7 @@
 
 class Polygon: public Shape {
 private:
-    static signed char sign(double value) const;
+    static signed char sign(double value);
     bool isSimilar(const Shape& another, bool need_to_diff);
 
 protected:
@@ -12,7 +12,7 @@ public:
     Polygon();
     Polygon(std::vector<Point>& verticecs);
 
-    std::vector<Points> getVertices() const;
+    std::vector<Point> getVertices() const;
     
     size_t verticesCount() const;
 
@@ -30,4 +30,4 @@ public:
     void scale(Point center, double coefficient) override;
      
     bool operator==(const Shape& another) override;
-}
+};
