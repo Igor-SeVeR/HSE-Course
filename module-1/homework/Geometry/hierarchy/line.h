@@ -1,3 +1,6 @@
+#ifndef LINE_H
+#define LINE_H
+
 #include "point.h"
 #include "consts.h"
 #include <cmath>
@@ -17,3 +20,5 @@ private:
     Point first;
     Point second;
 };
+
+#endif

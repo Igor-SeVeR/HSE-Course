@@ -1,8 +1,10 @@
+#ifndef SHAPE_H
+#define SHAPE_H
+
 #include "line.h"
 #include "point.h"
 #include "consts.h"
 #include <vector>
-#include <cmath>
 
 class Shape {
 public:
@@ -20,3 +22,5 @@ public:
      
     virtual bool operator==(const Shape& another) = 0;
 };
+
+#endif

@@ -20,7 +20,7 @@ bool operator==(const Line& left, const Line& right) {
                              + left_b_coeff * right.get_first_point().y + left_c_coeff;
     double ans_second_point = left_a_coeff * right.get_second_point().x
                              + left_b_coeff * right.get_second_point().y + left_c_coeff;
-    if (fabs(ans_first_point) < Consts::EPS && fabs(ans_second_point) < Consts::EPS)
+    if (fabs(ans_first_point) < Constants::EPS && fabs(ans_second_point) < Constants::EPS)
         return true;
     return false;
 }

@@ -1,3 +1,6 @@
+#ifndef POLYGON_H
+#define POLYGON_H
+
 #include "shape.h"
 
 class Polygon: public Shape {
@@ -22,7 +25,7 @@ public:
     bool isCongruentTo(const Shape& another) override;
     bool isSimilarTo(const Shape& another) override;
     bool containsPoint(Point point) override;
-    bool isConvex() override;
+    bool isConvex();
 
     void rotate(Point center, double angle) override;
     void reflex(Point center) override;
@@ -31,3 +34,5 @@ public:
      
     bool operator==(const Shape& another) override;
 };
+
+#endif

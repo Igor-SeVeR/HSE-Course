@@ -1,3 +1,6 @@
+#ifndef POINT_H
+#define POINT_H
+
 #include <cmath>
 
 struct Point {
@@ -17,3 +20,5 @@ struct Point {
     static double crossProduct(const Point& left, const Point& right);
     static double scalarProduct(const Point& left, const Point& right);
 };
+
+#endif

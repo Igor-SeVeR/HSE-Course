@@ -1,3 +1,6 @@
+#ifndef RECTANGLE_H
+#define RECTANGLE_H
+
 #include "polygon.h"
 
 class Rectangle: public Polygon {
@@ -8,3 +11,5 @@ public:
 
     std::pair<Line, Line> diagonals();
 };
+
+#endif
