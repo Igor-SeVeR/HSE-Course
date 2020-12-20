@@ -7,7 +7,7 @@ class Polygon: public Shape {
 
 public:
     Polygon();
-    Polygon(std::vector<Point>& verticecs);
+    Polygon(const std::vector<Point>& vertices);
 
     std::vector<Point> getVertices() const;
     

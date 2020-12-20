@@ -2,7 +2,7 @@
 
 Polygon::Polygon(): vertices({}) {}
 
-Polygon::Polygon(std::vector<Point>& vertices): vertices(vertices) {}
+Polygon::Polygon(const std::vector<Point>& vertices): vertices(vertices) {}
 
 std::vector<Point> Polygon::getVertices() const {
     return vertices;
