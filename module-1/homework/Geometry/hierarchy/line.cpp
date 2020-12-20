@@ -8,6 +8,26 @@ Line::Line(const Point& first, const Point& second): first(first), second(second
     declare_coefficients();
 }
 
+Line::Line(double x_coeff, double y_coeff, double c_coeff): 
+            x_coeff(x_coeff), y_coeff(y_coeff), c_coeff(c_coeff) {
+    if (y_coeff == 0) {
+        first.x = -c_coeff / x_coeff;
+        first.y = 1;
+        second.x = -c_coeff / x_coeff;
+        second.y = 0;
+    } else if (x_coeff == 0){
+        first.x = 1;
+        first.y = -c_coeff / y_coeff;
+        second.x = 0;
+        second.y = -c_coeff / y_coeff;
+    } else {
+        first.x = 0;
+        first.y = (-c_coeff - x_coeff * first.x) / y_coeff;
+        second.x = 1;
+        second.y = (-c_coeff - x_coeff * second.x) / y_coeff;
+    }
+}
+
 Point Line::get_first_point() const {
     return first;
 }

@@ -10,6 +10,7 @@ class Line {
 public:
     Line();
     Line(const Point& first, const Point& second);
+    Line(double x_coeff, double y_coeff, double c_coeff);
 
     Point get_first_point() const;
     Point get_second_point() const;
