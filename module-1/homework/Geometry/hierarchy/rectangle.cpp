@@ -13,10 +13,10 @@ Rectangle::Rectangle(const Point& right_bot_diag_point, const Point& left_top_di
     vertices = {left_top_diag_point, left_bot_diag_point, right_bot_diag_point, right_top_diag_point};
 }
 
-Point Rectangle::center() {
+Point Rectangle::center() const {
     return (vertices[0] + vertices[2]) / 2;
 }
 
-std::pair<Line, Line> Rectangle::diagonals() {
+std::pair<Line, Line> Rectangle::diagonals() const {
     return {{vertices[0], vertices[2]}, {vertices[1], vertices[3]}};
 }

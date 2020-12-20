@@ -5,7 +5,7 @@ Triangle::Triangle(const Point& first, const Point& second, const Point& third):
 
 Triangle::Triangle(std::vector<Point>& vertices): Polygon(vertices) {}
 
-Circle Triangle::inscribedCircle() {
+Circle Triangle::inscribedCircle() const {
     Point first_edge = vertices[1] - vertices[0];
     Point second_edge = vertices[2] - vertices[0];
     first_edge /= Point::pointDistance(first_edge, {0, 0});
@@ -21,7 +21,7 @@ Circle Triangle::inscribedCircle() {
     return Circle(center_in_circle, radius);
 }
 
-Circle Triangle::circumscribedCircle() {
+Circle Triangle::circumscribedCircle() const {
     Point first_edge = vertices[1] - vertices[0];
     std::swap(first_edge.x, first_edge.y);
     first_edge.x *= -1;

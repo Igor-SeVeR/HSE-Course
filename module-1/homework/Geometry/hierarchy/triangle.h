@@ -9,8 +9,8 @@ public:
     Triangle(const Point& first, const Point& second, const Point& third);
     Triangle(std::vector<Point>& vertices); 
 
-    Circle circumscribedCircle();
-    Circle inscribedCircle();
+    Circle circumscribedCircle() const ;
+    Circle inscribedCircle() const;
 
 };
 

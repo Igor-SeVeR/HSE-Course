@@ -12,14 +12,14 @@ size_t Polygon::verticesCount() const {
     return vertices.size();
 }
 
-double Polygon::perimeter() {
+double Polygon::perimeter() const {
     double ans = 0;
     for (size_t i = 0; i < verticesCount(); i++)
         ans += Point::pointDistance(vertices[i], vertices[(i + 1) % verticesCount()]);
     return ans;
 }
 
-double Polygon::area() {
+double Polygon::area() const {
     double ans = 0;
     for (size_t i = 0; i < verticesCount(); i++)
         ans += (vertices[(i + 1) % verticesCount()].x - vertices[i].x) 
@@ -27,7 +27,7 @@ double Polygon::area() {
     return fabs(ans) / 2;
 }
 
-bool Polygon::isSimilar(const Shape& another, bool need_to_diff) {
+bool Polygon::isSimilar(const Shape& another, bool need_to_diff) const {
     const Polygon* another_polygon = dynamic_cast<const Polygon*>(&another);
     if (another_polygon != nullptr) {
         if (verticesCount() != another_polygon->verticesCount())
@@ -85,15 +85,15 @@ bool Polygon::isSimilar(const Shape& another, bool need_to_diff) {
     return false;
 }
 
-bool Polygon::isCongruentTo(const Shape& another) {
+bool Polygon::isCongruentTo(const Shape& another) const {
     return isSimilar(another, false);
 }
 
-bool Polygon::isSimilarTo(const Shape& another) {
+bool Polygon::isSimilarTo(const Shape& another) const {
     return isSimilar(another, true);
 }
 
-bool Polygon::containsPoint(Point point) {
+bool Polygon::containsPoint(Point point) const {
     double ans = 0;
     std::vector<Point> n_point = getVertices();
     for (size_t i = 0; i < verticesCount(); i++)
@@ -116,7 +116,7 @@ signed char Polygon::sign(double value) {
     return -1;
 }
 
-bool Polygon::isConvex() {
+bool Polygon::isConvex() const {
     bool ans = 1;
     double prev = 0;
     for (size_t i = 0; i < verticesCount(); i++) {
@@ -166,7 +166,7 @@ void Polygon::scale(Point center, double coefficient) {
     }
 }
 
-bool Polygon::operator==(const Shape& another) {
+bool Polygon::operator==(const Shape& another) const {
     const Polygon* another_polygon = dynamic_cast<const Polygon*>(&another);
     if (another_polygon != nullptr) {
         if (verticesCount() != another_polygon->verticesCount())

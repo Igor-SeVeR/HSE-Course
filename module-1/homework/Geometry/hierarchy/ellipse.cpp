@@ -30,16 +30,16 @@ Point Ellipse::center() const {
     return (first_focus + second_focus) / 2;
 }
 
-double Ellipse::perimeter() {
+double Ellipse::perimeter() const {
     return 4 * (Constants::PI * major_axes * minor_axes + major_axes - minor_axes)
          / (major_axes + minor_axes);
 }
 
-double Ellipse::area() {
+double Ellipse::area() const {
     return Constants::PI * major_axes * minor_axes;
 }
 
-bool Ellipse::isCongruentTo(const Shape& another) {
+bool Ellipse::isCongruentTo(const Shape& another) const {
     const Ellipse* another_ellipse = dynamic_cast<const Ellipse*>(&another);
     if (another_ellipse != nullptr) {
         if ((fabs(major_axes - another_ellipse->major_axes) < Constants::EPS) ||
@@ -49,7 +49,7 @@ bool Ellipse::isCongruentTo(const Shape& another) {
     return false;
 }
 
-bool Ellipse::isSimilarTo(const Shape& another) {
+bool Ellipse::isSimilarTo(const Shape& another) const {
     const Ellipse* another_ellipse = dynamic_cast<const Ellipse*>(&another);
     if (another_ellipse != nullptr) {
         double diff = major_axes / another_ellipse->major_axes;
@@ -59,7 +59,7 @@ bool Ellipse::isSimilarTo(const Shape& another) {
     return false;
 }
 
-bool Ellipse::containsPoint(Point point) {
+bool Ellipse::containsPoint(Point point) const {
     double dist_to_first_focus = Point::pointDistance(first_focus, point);
     double dist_to_second_focus = Point::pointDistance(second_focus, point);
     return (dist_to_first_focus + dist_to_second_focus) <= 2 * major_axes;
@@ -119,7 +119,7 @@ void Ellipse::scale(Point center, double coefficient) {
     foc_dist *= coefficient;
 }
     
-bool Ellipse::operator==(const Shape& another) {
+bool Ellipse::operator==(const Shape& another) const {
     const Ellipse* another_ellipse = dynamic_cast<const Ellipse*>(&another);
     if (another_ellipse != nullptr) {
         if (((first_focus == another_ellipse->first_focus && second_focus == another_ellipse->second_focus) ||
