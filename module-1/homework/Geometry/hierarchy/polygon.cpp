@@ -99,10 +99,13 @@ bool Polygon::containsPoint(Point point) {
     for (size_t i = 0; i < verticesCount(); i++)
         n_point[i] = n_point[i] - point;
     for (size_t i = 0; i < verticesCount(); i++) {
-        ans += atan2(Point::crossProduct(n_point[i], n_point[(i + 1) % verticesCount()]), 
-                Point::scalarProduct(n_point[i], n_point[(i + 1) % verticesCount()]));
+        double cross_product = Point::crossProduct(n_point[i], n_point[(i + 1) % verticesCount()]);
+        double scalar_product = Point::scalarProduct(n_point[i], n_point[(i + 1) % verticesCount()]);
+        if (cross_product < Constants::EPS && scalar_product <= 0)
+            return true;
+        ans += atan2(cross_product, scalar_product);
     }
-    return !(fabs(ans) < Constants::EPS);
+    return fabs(2 * Constants::PI - ans) < Constants::EPS;
 }
 
 signed char Polygon::sign(double value) {

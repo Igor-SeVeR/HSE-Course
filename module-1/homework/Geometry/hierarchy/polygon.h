@@ -4,12 +4,6 @@
 #include "shape.h"
 
 class Polygon: public Shape {
-private:
-    static signed char sign(double value);
-    bool isSimilar(const Shape& another, bool need_to_diff);
-
-protected:
-    std::vector<Point> vertices;
 
 public:
     Polygon();
@@ -33,6 +27,13 @@ public:
     void scale(Point center, double coefficient) override;
      
     bool operator==(const Shape& another) override;
+
+protected:
+    std::vector<Point> vertices;
+
+private:
+    static signed char sign(double value);
+    bool isSimilar(const Shape& another, bool need_to_diff);
 };
 
 #endif
