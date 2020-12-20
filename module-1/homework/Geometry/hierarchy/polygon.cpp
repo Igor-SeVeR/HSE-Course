@@ -96,16 +96,13 @@ bool Polygon::isSimilarTo(const Shape& another) {
 bool Polygon::containsPoint(Point point) {
     double ans = 0;
     std::vector<Point> n_point = getVertices();
-    for (size_t i = 0; i < verticesCount(); i++) {
+    for (size_t i = 0; i < verticesCount(); i++)
         n_point[i] = n_point[i] - point;
-    }
     for (size_t i = 0; i < verticesCount(); i++) {
-        if (fabs(Point::crossProduct(vertices[i], vertices[(i + 1) % verticesCount()])) < Constants::EPS)
-            return true;
-        ans += atan2(Point::crossProduct(vertices[i], vertices[(i + 1) % verticesCount()]), 
-                Point::scalarProduct(vertices[i], vertices[(i + 1) % verticesCount()]));
+        ans += atan2(Point::crossProduct(n_point[i], n_point[(i + 1) % verticesCount()]), 
+                Point::scalarProduct(n_point[i], n_point[(i + 1) % verticesCount()]));
     }
-    return (fabs(2 * Constants::PI - fabs(ans)) < Constants::EPS);
+    return !(fabs(ans) < Constants::EPS);
 }
 
 signed char Polygon::sign(double value) {
@@ -155,7 +152,7 @@ void Polygon::reflex(Line axis) {
     axis_normal.y /= axis_len;
     for (size_t i = 0; i < verticesCount(); i++) {
         double orient_dist = axis_a_coeff * vertices[i].x + axis_b_coeff * vertices[i].y + axis_c_coeff;
-        orient_dist /= Point::pointDistance(vertices[i], {0, 0});
+        orient_dist /= Point::pointDistance({axis_a_coeff, axis_b_coeff}, {0, 0});
         Point vec_nomal = axis_normal;
         vec_nomal.x *= orient_dist;
         vec_nomal.y *= orient_dist;
