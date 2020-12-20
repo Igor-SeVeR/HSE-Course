@@ -6,52 +6,35 @@ Triangle::Triangle(const Point& first, const Point& second, const Point& third):
 Triangle::Triangle(std::vector<Point>& vertices): Polygon(vertices) {}
 
 Circle Triangle::inscribedCircle() {
-    Point v1 = vertices[1] - vertices[0];
-    Point v2 = vertices[2] - vertices[0];
-    double v1_len = Point::pointDistance(v1, {0, 0});
-    double v2_len = Point::pointDistance(v2, {0, 0});
-    v1.x /= v1_len;
-    v1.y /= v1_len;
-    v2.x /= v2_len;
-    v2.y /= v2_len;
-    Point p1 = (v1 + v2);
-    p1.x /= 2;
-    p1.y /= 2;
-    p1 = p1 + vertices[0];
-    v1 = vertices[0] - vertices[1];
-    v2 = vertices[2] - vertices[1];
-    v1_len = Point::pointDistance(v1, {0, 0});
-    v2_len = Point::pointDistance(v2, {0, 0});
-    v1.x /= v1_len;
-    v1.y /= v1_len;
-    v2.x /= v2_len;
-    v2.y /= v2_len;
-    Point p2 = (v1 + v2);
-    p2.x /= 2;
-    p2.y /= 2;
-    p2 = p2 + vertices[1];
-    Point c_in = Line::intersect(Line(vertices[0], p1), Line(vertices[1], p2))[0];
+    Point first_edge = vertices[1] - vertices[0];
+    Point second_edge = vertices[2] - vertices[0];
+    first_edge /= Point::pointDistance(first_edge, {0, 0});
+    second_edge /= Point::pointDistance(second_edge, {0, 0});
+    Point first_biss = vertices[0] + (first_edge + second_edge) / 2;
+    first_edge = vertices[0] - vertices[1];
+    second_edge = vertices[2] - vertices[1];
+    first_edge /= Point::pointDistance(first_edge, {0, 0});
+    second_edge /= Point::pointDistance(second_edge, {0, 0});
+    Point second_biss = vertices[1] + (first_edge + second_edge) / 2;
+    Point center_in_circle = Line::intersect(Line(vertices[0], first_biss), Line(vertices[1], second_biss))[0];
     double radius = area() / (perimeter() / 2);
-    return Circle(c_in, radius);
+    return Circle(center_in_circle, radius);
 }
 
 Circle Triangle::circumscribedCircle() {
-    Point v1 = vertices[1] - vertices[0];
-    std::swap(v1.x, v1.y);
-    v1.x *= -1;
-    Point v2 = vertices[2] - vertices[1];
-    std::swap(v2.x, v2.y);
-    v2.x *= -1;
-    Point p1 = (vertices[1] + vertices[0]);
-    p1.x /= 2;
-    p1.y /= 2;
-    Point p2 = (vertices[1] + vertices[2]);
-    p2.x /= 2;
-    p2.y /= 2;
-    Point c_out = Line::intersect(Line(p1, p1 + v1), Line(p2, p2 + v2))[0];
-    double a = Point::pointDistance(vertices[0], vertices[1]);
-    double b = Point::pointDistance(vertices[1], vertices[2]);
-    double c = Point::pointDistance(vertices[0], vertices[2]);
-    double radius = a * b * c / (4 * area());
-    return Circle(c_out, radius);
+    Point first_edge = vertices[1] - vertices[0];
+    std::swap(first_edge.x, first_edge.y);
+    first_edge.x *= -1;
+    Point second_edge = vertices[2] - vertices[1];
+    std::swap(second_edge.x, second_edge.y);
+    second_edge.x *= -1;
+    Point first_mid_perpend = (vertices[1] + vertices[0]) / 2;
+    Point second_mid_perpend = (vertices[1] + vertices[2]) / 2;
+    Point center_out_circle = Line::intersect(Line(first_mid_perpend, first_mid_perpend + first_edge), 
+                                                Line(second_mid_perpend, second_mid_perpend + second_edge))[0];
+    double first_side = Point::pointDistance(vertices[0], vertices[1]);
+    double second_side = Point::pointDistance(vertices[1], vertices[2]);
+    double third_side = Point::pointDistance(vertices[0], vertices[2]);
+    double radius = first_side * second_side * third_side / (4 * area());
+    return Circle(center_out_circle, radius);
 }

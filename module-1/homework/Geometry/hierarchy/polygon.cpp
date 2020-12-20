@@ -146,20 +146,14 @@ void Polygon::reflex(Point center) {
 }
 
 void Polygon::reflex(Line axis) {
-    double axis_a_coeff = axis.get_first_point().y - axis.get_second_point().y;
-    double axis_b_coeff = axis.get_second_point().x - axis.get_first_point().x;
-    double axis_c_coeff = -(axis_a_coeff * axis.get_first_point().x + axis_b_coeff * axis.get_first_point().y);
-    Point axis_normal(axis_a_coeff, axis_b_coeff);
+    Point axis_normal(axis.getXCoeff(), axis.getYCoeff());
     double axis_len = Point::pointDistance(axis_normal, {0, 0});
-    axis_normal.x /= axis_len;
-    axis_normal.y /= axis_len;
+    axis_normal /= axis_len;
     for (size_t i = 0; i < verticesCount(); i++) {
-        double orient_dist = axis_a_coeff * vertices[i].x + axis_b_coeff * vertices[i].y + axis_c_coeff;
-        orient_dist /= Point::pointDistance({axis_a_coeff, axis_b_coeff}, {0, 0});
-        Point vec_nomal = axis_normal;
-        vec_nomal.x *= orient_dist;
-        vec_nomal.y *= orient_dist;
-        Point center = vertices[i] - vec_nomal;
+        double orient_dist = axis.getXCoeff() * vertices[i].x + axis.getYCoeff() * vertices[i].y + axis.getCCoeff();
+        orient_dist /= Point::pointDistance({axis.getXCoeff(), axis.getYCoeff()}, {0, 0});
+        Point vec_normal = axis_normal * orient_dist;
+        Point center = vertices[i] - vec_normal;
         vertices[i].x = 2 * center.x - vertices[i].x;
         vertices[i].y = 2 * center.y - vertices[i].y;
     }

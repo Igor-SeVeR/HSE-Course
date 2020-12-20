@@ -15,6 +15,16 @@ struct Point {
 
     friend Point operator-(const Point& left, const Point& right);
     friend Point operator+(const Point& left, const Point& right);
+    Point& operator-=(const Point& right);
+    Point& operator+=(const Point& right);
+
+    friend Point operator/(const Point& left, double right);
+    friend Point operator*(const Point& left, double right);
+    Point& operator/=(double right);
+    Point& operator*=(double right);
+
+    Point& operator-() const;
+
 
     static double pointDistance(const Point& left, const Point& right);
     static double crossProduct(const Point& left, const Point& right);

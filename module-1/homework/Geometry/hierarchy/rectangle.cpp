@@ -14,10 +14,7 @@ Rectangle::Rectangle(const Point& right_bot_diag_point, const Point& left_top_di
 }
 
 Point Rectangle::center() {
-    Point ans = vertices[0] + vertices[2];
-    ans.x /= 2;
-    ans.y /= 2;
-    return ans;
+    return (vertices[0] + vertices[2]) / 2;
 }
 
 std::pair<Line, Line> Rectangle::diagonals() {
