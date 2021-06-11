@@ -49,7 +49,7 @@ protected:
     void Set(U&& value) {
         this->value = std::forward<U>(value);
         isObtained = true;
-    } 
+    }
 };
 
 template <typename T>
@@ -95,7 +95,7 @@ protected:
         }
         this->value = std::forward<U>(value);
         isObtained = true;
-    } 
+    }
 };
 
 template <typename T>
@@ -104,7 +104,7 @@ private:
     using base = BaseOptionalDestruct<T, std::is_trivially_destructible<T>::value>;
 
 public:
-    using value_type =  T;
+    using value_type = T;
 
     constexpr Optional() noexcept;
 
@@ -222,7 +222,7 @@ constexpr std::add_pointer_t<typename Optional<T>::value_type> Optional<T>::oper
 
 template <typename T>
 constexpr const typename Optional<T>::value_type& Optional<T>::operator*() const& {
-    return this-> value;
+    return this->value;
 }
 
 template <typename T>
