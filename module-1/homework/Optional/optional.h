@@ -36,12 +36,12 @@ protected:
     bool isObtained;
     T value;
 
-    void reset() {
+    void Reset() {
         isObtained = false;
     }
 
     template<typename U = T>
-    void set(U&& value) {
+    void Set(U&& value) {
         this->value = std::forward<U>(value);
         isObtained = true;
     } 
@@ -63,24 +63,27 @@ public:
                                                          isObtained(true) {}
 
     ~BaseOptionalDestruct() {
-        if (this->isObtained)
+        if (this->isObtained) {
             value.~T();
+        }
     }
 
 protected:
-    bool isObtained;
     T value;
+    bool isObtained;
 
-    void reset() {
-        if (this->isObtained)
+    void Reset() {
+        if (this->isObtained) {
             value.~T();
+        }
         isObtained = false;
     }
 
     template<typename U = T>
-    void set(U&& value) {
-        if (this->isObtained)
+    void Set(U&& value) {
+        if (this->isObtained) {
             value.~T();
+        }
         this->value = std::forward<U>(value);
         isObtained = true;
     } 
@@ -157,28 +160,30 @@ Optional<T>& Optional<T>::operator=(NullOpt) noexcept {
 template<typename T>
 template <typename U>
 Optional<T>& Optional<T>::operator=(U&& value) {
-    this->set(std::forward<U>(value));
+    this->Set(std::forward<U>(value));
     return *this;
 }
 
 template<typename T>
 void Optional<T>::Reset() noexcept {
-    this->reset();
+    this->Reset();
 }
 
 template<typename T>
 template <typename U>
 constexpr T Optional<T>::ValueOr(U&& default_value) const& {
-    if (this->HasValue())
+    if (this->HasValue()) {
         return this->value;
+    }
     return default_value;
 }
 
 template<typename T>
 template <typename U>
 constexpr T Optional<T>::ValueOr(U&& default_value) && {
-    if (this->HasValue())
+    if (this->HasValue()) {
         return this->value;
+    }
     return default_value;
 }
 
