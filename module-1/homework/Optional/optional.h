@@ -28,14 +28,14 @@ public:
     }
 
     template <typename... Args>
-    constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args) 
+    constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args)
         : value(std::forward<Args>(args)...), isObtained(true) {
-        }
+    }
 
     template <typename U = T>
-    constexpr explicit BaseOptionalDestruct(U&& value) : value(std::forward<U>(value)), 
-                                                         isObtained(true) {
-                                                         }
+    constexpr explicit BaseOptionalDestruct(U&& value)
+        : value(std::forward<U>(value)), isObtained(true) {
+    }
 
 protected:
     T value;
