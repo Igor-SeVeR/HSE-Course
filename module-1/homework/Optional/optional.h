@@ -6,7 +6,8 @@
 namespace task {
 
 struct NullOpt {
-    explicit constexpr NullOpt(int) {}
+    explicit constexpr NullOpt(int) {
+    }
 };
 
 constexpr NullOpt kNullOpt = NullOpt{0};
@@ -20,17 +21,21 @@ constexpr InPlace kInPlace = InPlace{};
 template <typename T, bool>
 class BaseOptionalDestruct {
 public:
-    constexpr BaseOptionalDestruct(): isObtained(false) {}
+    constexpr BaseOptionalDestruct(): isObtained(false) {
+    }
 
-    constexpr explicit BaseOptionalDestruct(NullOpt): isObtained(false) {}
+    constexpr explicit BaseOptionalDestruct(NullOpt): isObtained(false) {
+    }
 
     template <typename... Args>
     constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args): value(std::forward<Args>(args)...), 
-                                                                       isObtained(true) {}
+                                                                       isObtained(true) {
+                                                                       }
 
     template <typename U = T>
     constexpr explicit BaseOptionalDestruct(U&& value): value(std::forward<U>(value)), 
-                                                         isObtained(true) {}
+                                                         isObtained(true) {
+                                                         }
 
 protected:
     T value;
@@ -50,17 +55,21 @@ protected:
 template <typename T>
 class BaseOptionalDestruct<T, false> {
 public:
-    constexpr BaseOptionalDestruct(): isObtained(false) {}
+    constexpr BaseOptionalDestruct(): isObtained(false) {
+    }
 
-    constexpr explicit BaseOptionalDestruct(NullOpt): isObtained(false) {}
+    constexpr explicit BaseOptionalDestruct(NullOpt): isObtained(false) {
+    }
 
     template <typename... Args>
     constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args): value(std::forward<Args>(args)...), 
-                                                                       isObtained(true) {}
+                                                                       isObtained(true) {
+                                                                       }
 
     template <typename U = T>
     constexpr explicit BaseOptionalDestruct(U&& value): value(std::forward<U>(value)), 
-                                                         isObtained(true) {}
+                                                         isObtained(true) {
+                                                         }
 
     ~BaseOptionalDestruct() {
         if (this->isObtained) {
@@ -138,18 +147,22 @@ public:
 };
 
 template <typename T>
-constexpr Optional<T>::Optional() noexcept: base() {}
+constexpr Optional<T>::Optional() noexcept: base() {
+}
 
 template <typename T>
 template <typename U>
-constexpr Optional<T>::Optional(U&& value): base(std::forward<U>(value)) {}
+constexpr Optional<T>::Optional(U&& value): base(std::forward<U>(value)) {
+}
 
 template <typename T>
-constexpr Optional<T>::Optional(NullOpt) noexcept: base(kNullOpt) {}
+constexpr Optional<T>::Optional(NullOpt) noexcept: base(kNullOpt) {
+}
 
 template <typename T>
 template <typename... Args>
-constexpr Optional<T>::Optional(InPlace, Args&&... args): base(kInPlace, args...) {}
+constexpr Optional<T>::Optional(InPlace, Args&&... args): base(kInPlace, args...) {
+}
 
 template <typename T>
 Optional<T>& Optional<T>::operator=(NullOpt) noexcept {
