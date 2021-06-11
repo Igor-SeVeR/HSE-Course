@@ -17,7 +17,7 @@ struct InPlace {
 
 constexpr InPlace kInPlace = InPlace{};
 
-template<typename T, bool>
+template <typename T, bool>
 class BaseOptionalDestruct {
 public:
     constexpr BaseOptionalDestruct(): isObtained(false) {}
@@ -28,7 +28,7 @@ public:
     constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args): value(std::forward<Args>(args)...), 
                                                                        isObtained(true) {}
 
-    template<typename U = T>
+    template <typename U = T>
     constexpr explicit BaseOptionalDestruct(U&& value): value(std::forward<U>(value)), 
                                                          isObtained(true) {}
 
@@ -40,14 +40,14 @@ protected:
         isObtained = false;
     }
 
-    template<typename U = T>
+    template <typename U = T>
     void Set(U&& value) {
         this->value = std::forward<U>(value);
         isObtained = true;
     } 
 };
 
-template<typename T>
+template <typename T>
 class BaseOptionalDestruct<T, false> {
 public:
     constexpr BaseOptionalDestruct(): isObtained(false) {}
@@ -58,7 +58,7 @@ public:
     constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args): value(std::forward<Args>(args)...), 
                                                                        isObtained(true) {}
 
-    template<typename U = T>
+    template <typename U = T>
     constexpr explicit BaseOptionalDestruct(U&& value): value(std::forward<U>(value)), 
                                                          isObtained(true) {}
 
@@ -79,7 +79,7 @@ protected:
         isObtained = false;
     }
 
-    template<typename U = T>
+    template <typename U = T>
     void Set(U&& value) {
         if (this->isObtained) {
             value.~T();
@@ -137,39 +137,39 @@ public:
     constexpr value_type&& operator*() &&;
 };
 
-template<typename T>
+template <typename T>
 constexpr Optional<T>::Optional() noexcept: base() {}
 
-template<typename T>
+template <typename T>
 template <typename U>
 constexpr Optional<T>::Optional(U&& value): base(std::forward<U>(value)) {}
 
-template<typename T>
+template <typename T>
 constexpr Optional<T>::Optional(NullOpt) noexcept: base(kNullOpt) {}
 
-template<typename T>
+template <typename T>
 template <typename... Args>
 constexpr Optional<T>::Optional(InPlace, Args&&... args): base(kInPlace, args...) {}
 
-template<typename T>
+template <typename T>
 Optional<T>& Optional<T>::operator=(NullOpt) noexcept {
     this->ResetBase();
     return *this;
 }
 
-template<typename T>
+template <typename T>
 template <typename U>
 Optional<T>& Optional<T>::operator=(U&& value) {
     this->Set(std::forward<U>(value));
     return *this;
 }
 
-template<typename T>
+template <typename T>
 void Optional<T>::Reset() noexcept {
     this->ResetBase();
 }
 
-template<typename T>
+template <typename T>
 template <typename U>
 constexpr T Optional<T>::ValueOr(U&& default_value) const& {
     if (this->HasValue()) {
@@ -178,7 +178,7 @@ constexpr T Optional<T>::ValueOr(U&& default_value) const& {
     return default_value;
 }
 
-template<typename T>
+template <typename T>
 template <typename U>
 constexpr T Optional<T>::ValueOr(U&& default_value) && {
     if (this->HasValue()) {
@@ -187,42 +187,42 @@ constexpr T Optional<T>::ValueOr(U&& default_value) && {
     return default_value;
 }
 
-template<typename T>
+template <typename T>
 constexpr bool Optional<T>::HasValue() const noexcept {
     return this->isObtained;
 }
 
-template<typename T>
+template <typename T>
 constexpr Optional<T>::operator bool() const noexcept {
     return this->HasValue();
 }
 
-template<typename T>
+template <typename T>
 constexpr std::add_pointer_t<const typename Optional<T>::value_type> Optional<T>::operator->() const {
     return &(this->value);
 }
 
-template<typename T>
+template <typename T>
 constexpr std::add_pointer_t<typename Optional<T>::value_type> Optional<T>::operator->() {
     return &(this->value);
 }
 
-template<typename T>
+template <typename T>
 constexpr const typename Optional<T>::value_type& Optional<T>::operator*() const& {
     return this-> value;
 }
 
-template<typename T>
+template <typename T>
 constexpr typename Optional<T>::value_type& Optional<T>::operator*() & {
     return this->value;
 }
 
-template<typename T>
+template <typename T>
 constexpr const typename Optional<T>::value_type&& Optional<T>::operator*() const&& {
     return this->value;
 }
 
-template<typename T>
+template <typename T>
 constexpr typename Optional<T>::value_type&& Optional<T>::operator*() && {
     return this->value;
 }
