@@ -6,16 +6,85 @@
 namespace task {
 
 struct NullOpt {
-    // Your code goes here;
+    explicit constexpr NullOpt(int) {}
 };
 
-constexpr NullOpt kNullOpt = // Your code goes here;
+constexpr NullOpt kNullOpt = NullOpt{0};
 
 struct InPlace {
-    // Your code goes here;
+    explicit InPlace() = default;
 };
 
-constexpr InPlace kInPlace =  //Your code goes here;
+constexpr InPlace kInPlace = InPlace{};
+
+template<typename T, bool>
+class BaseOptionalDestruct {
+public:
+    constexpr BaseOptionalDestruct() : isObtained(false) {}
+
+    constexpr explicit BaseOptionalDestruct(NullOpt) : isObtained(false) {}
+
+    template <typename... Args>
+    constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args) : value(std::forward<Args>(args)...), 
+                                                                       isObtained(true) {}
+
+    template<typename U = T>
+    constexpr explicit BaseOptionalDestruct(U&& value) : value(std::forward<U>(value)), 
+                                                         isObtained(true) {}
+
+protected:
+    bool isObtained;
+    T value;
+
+    void reset() {
+        isObtained = false;
+    }
+
+    template<typename U = T>
+    void set(U&& value) {
+        this->value = std::forward<U>(value);
+        isObtained = true;
+    } 
+};
+
+template<typename T>
+class BaseOptionalDestruct<T, false> {
+public:
+    constexpr BaseOptionalDestruct() : isObtained(false) {}
+
+    constexpr explicit BaseOptionalDestruct(NullOpt) : isObtained(false) {}
+
+    template <typename... Args>
+    constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args) : value(std::forward<Args>(args)...), 
+                                                                       isObtained(true) {}
+
+    template<typename U = T>
+    constexpr explicit BaseOptionalDestruct(U&& value) : value(std::forward<U>(value)), 
+                                                         isObtained(true) {}
+
+    ~BaseOptionalDestruct() {
+        if (this->isObtained)
+            value.~T();
+    }
+
+protected:
+    bool isObtained;
+    T value;
+
+    void reset() {
+        if (this->isObtained)
+            value.~T();
+        isObtained = false;
+    }
+
+    template<typename U = T>
+    void set(U&& value) {
+        if (this->isObtained)
+            value.~T();
+        this->value = std::forward<U>(value);
+        isObtained = true;
+    } 
+};
 
 template <typename T>
 class Optional : public // Your code goes here; {
