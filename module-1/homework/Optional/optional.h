@@ -211,7 +211,8 @@ constexpr Optional<T>::operator bool() const noexcept {
 }
 
 template <typename T>
-constexpr std::add_pointer_t<const typename Optional<T>::value_type> Optional<T>::operator->() const {
+constexpr std::add_pointer_t<const typename Optional<T>::value_type> 
+    Optional<T>::operator->() const {
     return &(this->value);
 }
 
