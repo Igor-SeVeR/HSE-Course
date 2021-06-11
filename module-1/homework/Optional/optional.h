@@ -21,10 +21,10 @@ constexpr InPlace kInPlace = InPlace{};
 template <typename T, bool>
 class BaseOptionalDestruct {
 public:
-    constexpr BaseOptionalDestruct(): isObtained(false) {
+    constexpr BaseOptionalDestruct() : isObtained(false) {
     }
 
-    constexpr explicit BaseOptionalDestruct(NullOpt): isObtained(false) {
+    constexpr explicit BaseOptionalDestruct(NullOpt) : isObtained(false) {
     }
 
     template <typename... Args>
@@ -147,16 +147,16 @@ public:
 };
 
 template <typename T>
-constexpr Optional<T>::Optional() noexcept: base() {
+constexpr Optional<T>::Optional() noexcept : base() {
 }
 
 template <typename T>
 template <typename U>
-constexpr Optional<T>::Optional(U&& value): base(std::forward<U>(value)) {
+constexpr Optional<T>::Optional(U&& value) : base(std::forward<U>(value)) {
 }
 
 template <typename T>
-constexpr Optional<T>::Optional(NullOpt) noexcept: base(kNullOpt) {
+constexpr Optional<T>::Optional(NullOpt) noexcept : base(kNullOpt) {
 }
 
 template <typename T>
