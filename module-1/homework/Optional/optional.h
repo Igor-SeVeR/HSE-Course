@@ -28,12 +28,12 @@ public:
     }
 
     template <typename... Args>
-    constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args): value(std::forward<Args>(args)...), 
+    constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args) : value(std::forward<Args>(args)...), 
                                                                        isObtained(true) {
                                                                        }
 
     template <typename U = T>
-    constexpr explicit BaseOptionalDestruct(U&& value): value(std::forward<U>(value)), 
+    constexpr explicit BaseOptionalDestruct(U&& value) : value(std::forward<U>(value)), 
                                                          isObtained(true) {
                                                          }
 
@@ -55,19 +55,19 @@ protected:
 template <typename T>
 class BaseOptionalDestruct<T, false> {
 public:
-    constexpr BaseOptionalDestruct(): isObtained(false) {
+    constexpr BaseOptionalDestruct() : isObtained(false) {
     }
 
-    constexpr explicit BaseOptionalDestruct(NullOpt): isObtained(false) {
+    constexpr explicit BaseOptionalDestruct(NullOpt) : isObtained(false) {
     }
 
     template <typename... Args>
-    constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args): value(std::forward<Args>(args)...), 
+    constexpr explicit BaseOptionalDestruct(InPlace, Args&&... args) : value(std::forward<Args>(args)...), 
                                                                        isObtained(true) {
                                                                        }
 
     template <typename U = T>
-    constexpr explicit BaseOptionalDestruct(U&& value): value(std::forward<U>(value)), 
+    constexpr explicit BaseOptionalDestruct(U&& value) : value(std::forward<U>(value)), 
                                                          isObtained(true) {
                                                          }
 
@@ -161,7 +161,7 @@ constexpr Optional<T>::Optional(NullOpt) noexcept : base(kNullOpt) {
 
 template <typename T>
 template <typename... Args>
-constexpr Optional<T>::Optional(InPlace, Args&&... args): base(kInPlace, args...) {
+constexpr Optional<T>::Optional(InPlace, Args&&... args) : base(kInPlace, args...) {
 }
 
 template <typename T>
