@@ -29,8 +29,8 @@ public:
                                                                        isObtained(true) {}
 
     template<typename U = T>
-    constexpr explicit BaseOptionalDestruct(U&& value) : value(std::forward<U>(value)), 
-                                                         isObtained(true) {}
+    constexpr explicit BaseOptionalDestruct(U&& value) : isObtained(true),
+                                                         value(std::forward<U>(value)) {}
 
 protected:
     T value;
