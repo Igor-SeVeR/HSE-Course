@@ -36,7 +36,7 @@ protected:
     bool isObtained;
     T value;
 
-    void Reset() {
+    void ResetBase() {
         isObtained = false;
     }
 
@@ -72,7 +72,7 @@ protected:
     T value;
     bool isObtained;
 
-    void Reset() {
+    void ResetBase() {
         if (this->isObtained) {
             value.~T();
         }
@@ -153,7 +153,7 @@ constexpr Optional<T>::Optional(InPlace, Args&&... args) : base(kInPlace, args..
 
 template<typename T>
 Optional<T>& Optional<T>::operator=(NullOpt) noexcept {
-    this->reset();
+    this->ResetBase();
     return *this;
 }
 
@@ -166,7 +166,7 @@ Optional<T>& Optional<T>::operator=(U&& value) {
 
 template<typename T>
 void Optional<T>::Reset() noexcept {
-    this->Reset();
+    this->ResetBase();
 }
 
 template<typename T>
