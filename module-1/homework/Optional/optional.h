@@ -33,8 +33,8 @@ public:
                                                          isObtained(true) {}
 
 protected:
-    bool isObtained;
     T value;
+    bool isObtained;
 
     void ResetBase() {
         isObtained = false;
