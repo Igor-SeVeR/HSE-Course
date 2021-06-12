@@ -51,3 +51,7 @@ target_clangformat_setup(runner)
 target_link_libraries(runner LINK_PUBLIC gtest_main)
 
 add_test(NAME runner_test COMMAND runner)
+
+#add_executable(runner tests.cpp)
+#target_link_libraries(runner gtest_main)
+#add_test(NAME runner_test COMMAND runner)
