@@ -295,6 +295,12 @@ bool WeakPtr<T>::Expired() noexcept {
 
 template <typename T>
 SharedPtr<T> WeakPtr<T>::Lock() const noexcept {
-    SharedPtr<T> answer(valuePointer, controlPointer);
+    if (controlPointer->UseCount() == 0) {
+        SharedPtr<T> answer;
+        answer.controlPointer = nullptr;
+        return answer;
+    }
+    SharedPtr<T> answer(valuePointer);
+    answer.controlPointer = controlPointer;
     return answer;
 }
