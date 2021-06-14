@@ -73,9 +73,7 @@ public:
 private:
     element_type* valuePointer = nullptr;
     SharedWeakCount* controlPointer = nullptr;
-
 };
-
 
 template <typename T, typename... Args>
 SharedPtr<T> MakeShared(Args&&... args) {
@@ -114,8 +112,7 @@ SharedPtr<T>::SharedPtr(const SharedPtr& other) noexcept
 
 template <typename T>
 SharedPtr<T>::SharedPtr(SharedPtr&& other) noexcept
-    : valuePointer(other.valuePointer), 
-    controlPointer(other.controlPointer) {
+    : valuePointer(other.valuePointer), controlPointer(other.controlPointer) {
     other.valuePointer = nullptr;
     other.controlPointer = nullptr;
 }
@@ -222,7 +219,6 @@ public:
 public:
     element_type* valuePointer = nullptr;
     SharedWeakCount* controlPointer = nullptr;
-
 };
 
 template <typename T>
@@ -238,8 +234,7 @@ WeakPtr<T>::WeakPtr(const WeakPtr& other) noexcept
 
 template <typename T>
 WeakPtr<T>::WeakPtr(WeakPtr&& other) noexcept
-    : valuePointer(other.valuePointer), 
-    controlPointer(std::move(other.controlPointer)) {
+    : valuePointer(other.valuePointer), controlPointer(std::move(other.controlPointer)) {
     other.valuePointer = nullptr;
     other.controlPointer = nullptr;
 }

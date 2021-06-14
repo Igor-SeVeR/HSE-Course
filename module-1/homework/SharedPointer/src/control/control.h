@@ -54,7 +54,7 @@ struct PointerDeleter {
 template <typename T, typename Deleter=PointerDeleter<T>>
 class ControlBlock : public SharedWeakCount {
 public:
-    ControlBlock(T pointer) : pointer(pointer), 
+    explicit ControlBlock(T pointer) : pointer(pointer), 
         deleter(PointerDeleter<T>()) {
     }
 
