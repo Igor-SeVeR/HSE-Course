@@ -41,7 +41,6 @@ public:
 
 protected:
     virtual ~SharedWeakCount() = default;
-
 };
 
 template <typename T>
@@ -51,15 +50,14 @@ struct PointerDeleter {
     }
 };
 
-template <typename T, typename Deleter=PointerDeleter<T>>
+template <typename T, typename Deleter = PointerDeleter<T>>
 class ControlBlock : public SharedWeakCount {
 public:
-    explicit ControlBlock(T pointer) : pointer(pointer), 
-        deleter(PointerDeleter<T>()) {
+    explicit ControlBlock(T pointer) 
+        : pointer(pointer), deleter(PointerDeleter<T>()) {
     }
 
-    ControlBlock(T pointer, Deleter deleter)
-        : pointer(pointer), deleter(deleter) {
+    ControlBlock(T pointer, Deleter deleter) : pointer(pointer), deleter(deleter) {
     }
 
     void ObjectDeleter() noexcept override {
