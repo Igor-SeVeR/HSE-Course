@@ -105,8 +105,7 @@ SharedPtr<T>::SharedPtr(Y* p, Deleter deleter) noexcept
 
 template <typename T>
 SharedPtr<T>::SharedPtr(const SharedPtr& other) noexcept
-    : valuePointer(other.valuePointer), 
-    controlPointer(other.controlPointer) {
+    : valuePointer(other.valuePointer), controlPointer(other.controlPointer) {
     controlPointer->AddRef();
 }
 
