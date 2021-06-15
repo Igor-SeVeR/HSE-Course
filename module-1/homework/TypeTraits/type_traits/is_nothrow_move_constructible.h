@@ -28,7 +28,7 @@ struct LibCppIsNoThrowConstructible<false, IfRef, T, Args...> {
 template <typename T, typename... Args>
 struct IsNoThrowConstructible
     : LibCppIsNoThrowConstructible<IsConstructible<T, Args...>::value, std::is_reference_v<T>, T,
-    Args...>::type {};
+                                   Args...>::type {};
 
 template <typename T, std::size_t N>
 struct IsNoThrowConstructible<T[N]>
