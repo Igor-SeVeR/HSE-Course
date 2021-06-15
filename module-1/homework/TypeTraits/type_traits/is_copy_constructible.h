@@ -41,8 +41,9 @@ struct IsConstructibleHelper {
     static std::true_type CheckIfCastable(int);
 
     template <typename To, typename From, typename = decltype(static_cast<To>(Declval<From>()))>
-    static std::integral_constant<bool, !IsInvalidLvalueToRvalueCast<To, From>::value &&
-                                            !IsInvalidBaseToDerivedCast<To, From>::value>
+    static std::integral_constant<bool, 
+                                  !IsInvalidLvalueToRvalueCast<To, From>::value &&
+                                      !IsInvalidBaseToDerivedCast<To, From>::value>
     CheckIfCastable(int64_t);
 
     template <typename, typename>
