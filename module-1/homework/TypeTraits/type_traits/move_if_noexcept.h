@@ -24,8 +24,8 @@ template <bool condition, typename T, typename F>
 using conditional_v = typename Conditional<condition, T, F>::type;
 
 template <typename T>
-typename Conditional<!IsNoThrowMoveConstructible<T>::value && IsCopyConstructible<T>::value, 
-                     const T&, T&&>::type 
+typename Conditional<!IsNoThrowMoveConstructible<T>::value && IsCopyConstructible<T>::value,
+                     const T&, T&&>::type
 MoveIfNoExcept(T& x) {
     return std::move(x);
 }

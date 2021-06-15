@@ -26,7 +26,7 @@ struct IsInvalidLvalueToRvalueCast<RefTo&&, RefFrom&> {
     using to = uncvref_t<RefTo>;
     using from = uncvref_t<RefFrom>;
     static std::integral_constant<bool, std::is_base_of_v<to, from> &&
-        std::is_same_v<from, to>>
+                                  std::is_same_v<from, to>>
     value;
 };
 
@@ -42,7 +42,7 @@ struct IsConstructibleHelper {
 
     template <typename To, typename From, typename = decltype(static_cast<To>(Declval<From>()))>
     static std::integral_constant<bool, !IsInvalidLvalueToRvalueCast<To, From>::value &&
-        !IsInvalidBaseToDerivedCast<To, From>::value>
+                                  !IsInvalidBaseToDerivedCast<To, From>::value>
     CheckIfCastable(int64_t);
 
     template <typename, typename>
