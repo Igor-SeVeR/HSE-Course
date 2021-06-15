@@ -13,21 +13,21 @@ struct IsInvalidBaseToDerivedCast {
     using derived = uncvref_t<Derived>;
     using base = uncvref_t<Base>;
     static std::integral_constant<bool, std::is_base_of_v<base, derived> &&
-        !std::is_same_v<base, derived> && 
-        !LibCppIsConstructible<derived, Base>::type::value> 
+        !std::is_same_v<base, derived> &&
+        !LibCppIsConstructible<derived, Base>::type::value>
     value;
 };
 
 template <typename To, typename From>
-struct IsInvalidLvalueToRvalueCast : std::false_type {
-};
+struct IsInvalidLvalueToRvalueCast : std::false_type {};
 
 template <typename RefTo, typename RefFrom>
 struct IsInvalidLvalueToRvalueCast<RefTo&&, RefFrom&> {
     using to = uncvref_t<RefTo>;
     using from = uncvref_t<RefFrom>;
     static std::integral_constant<bool, std::is_base_of_v<to, from> &&
-        std::is_same_v<from, to>> value;
+        std::is_same_v<from, to>>
+    value;
 };
 
 struct IsConstructibleHelper {
@@ -41,8 +41,9 @@ struct IsConstructibleHelper {
     static std::true_type CheckIfCastable(int);
 
     template <typename To, typename From, typename = decltype(static_cast<To>(Declval<From>()))>
-    static std::integral_constant<bool, !IsInvalidLvalueToRvalueCast<To, From>::value && 
-        !IsInvalidBaseToDerivedCast<To, From>::value> CheckIfCastable(int64_t);
+    static std::integral_constant<bool, !IsInvalidLvalueToRvalueCast<To, From>::value &&
+        !IsInvalidBaseToDerivedCast<To, From>::value>
+    CheckIfCastable(int64_t);
 
     template <typename, typename>
     static std::false_type CheckIfConstructible(...);
@@ -72,9 +73,7 @@ struct LibCppIsConstructible<T&&, Arg> {
 };
 
 template <typename T, typename... Args>
-struct IsConstructible : LibCppIsConstructible<T, Args...>::type {
-};
+struct IsConstructible : LibCppIsConstructible<T, Args...>::type {};
 
 template <typename T>
-struct IsCopyConstructible : LibCppIsConstructible<T, const T&>::type {
-};
+struct IsCopyConstructible : LibCppIsConstructible<T, const T&>::type {};

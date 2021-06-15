@@ -10,8 +10,7 @@ struct LibCppIsNoThrowConstructible;
 
 template <typename T, typename Arg>
 struct LibCppIsNoThrowConstructible<true, true, T, Arg> {
-    using type = std::integral_constant<bool, 
-        noexcept(IsConstructibleHelper::ImplicitCast<T>(Declval<Arg>()))>;
+    using type = std::integral_constant<bool, noexcept(IsConstructibleHelper::ImplicitCast<T>(Declval<Arg>()))>;
 };
 
 template <typename T, typename... Args>
