@@ -8,8 +8,7 @@
 #include "utility.h"
 
 template <bool condition, typename T, typename F>
-struct Conditional {
-};
+struct Conditional {};
 
 template <typename T, typename F>
 struct Conditional<true, T, F> {
@@ -26,6 +25,7 @@ using conditional_v = typename Conditional<condition, T, F>::type;
 
 template <typename T>
 typename Conditional<!IsNoThrowMoveConstructible<T>::value && IsCopyConstructible<T>::value, 
-    const T&, T&&>::type MoveIfNoExcept(T& x) {
+                     const T&, T&&>::type 
+MoveIfNoExcept(T& x) {
     return std::move(x);
 }
