@@ -44,39 +44,39 @@ struct UnionOperations {
         return Get(std::forward<T>(val).tail, std::in_place_index<Index - 1>);
     }
 
-    template<std::size_t Index, typename T, std::size_t UnionIndex, typename Head, typename... Tail>
+    template <std::size_t Index, typename T, std::size_t UnionIndex, typename Head, typename... Tail>
     static void Set(T&& val, std::in_place_index_t<0>, UnionHolder<UnionIndex, Head, Tail...>& curUnion) {
         if (std::is_same_v<T, Head> || std::is_convertible_v<T, Head>) {
             curUnion.head = val;
         }
     }
 
-    template<std::size_t Index, typename T, std::size_t UnionIndex, typename Head, typename... Tail>
+    template <std::size_t Index, typename T, std::size_t UnionIndex, typename Head, typename... Tail>
     static void Set(T&& val, std::in_place_index_t<Index>, UnionHolder<UnionIndex, Head, Tail...>& curUnion) {
         Set<Index - 1>(std::forward<T>(val), std::in_place_index<Index - 1>, curUnion.tail);
     }
 };
 
-template<typename Head, typename... Tail> 
+template <typename Head, typename... Tail> 
 struct TypeList {
     typedef Head head;
     typedef TypeList<Tail...> tail;
 };
 
-template<typename TList, unsigned int Index>
+template <typename TList, unsigned int Index>
 struct TypeAt;
 
-template<typename Head, typename... Tail>
+template <typename Head, typename... Tail>
 struct TypeAt<TypeList<Head, Tail...>, 0> {
     typedef Head TargetType;
 };
 
-template<typename Head, typename... Tail, unsigned int Index>
+template <typename Head, typename... Tail, unsigned int Index>
 struct TypeAt<TypeList<Head, Tail...>, Index> {
     typedef typename TypeAt<TypeList<Tail...>, Index - 1>::TargetType TargetType;
 };
 
-template<std::size_t Size>
+template <std::size_t Size>
 constexpr std::size_t FindPosition(std::size_t cur_pos, const bool (&check)[Size]) {
     if (cur_pos == Size) {
         return -1;
@@ -87,7 +87,7 @@ constexpr std::size_t FindPosition(std::size_t cur_pos, const bool (&check)[Size
     return FindPosition(cur_pos + 1, check);
 }
 
-template<typename TargetType, typename... Types>
+template <typename TargetType, typename... Types>
 struct FindType {
     constexpr static bool check[sizeof...(Types)] = {std::is_same<TargetType, Types>::value...};
     constexpr static bool convertible[sizeof...(Types)] = {std::is_convertible<TargetType, Types>::value...};
@@ -131,11 +131,11 @@ private:
 };
 
 
-template<typename... Types>
+template <typename... Types>
 constexpr Variant<Types...>::Variant() noexcept {};
 
-template<typename... Types>
-template<typename T>
+template <typename... Types>
+template <typename T>
 Variant<Types...>& Variant<Types...>::operator=(T&& t) noexcept {
     const std::size_t foundIndex = FindType<T, Types...>::convertibleIndex;
     assert(foundIndex != -1);
@@ -144,22 +144,22 @@ Variant<Types...>& Variant<Types...>::operator=(T&& t) noexcept {
 }
 
 
-template<std::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 constexpr const variant_alternative_t<I, Variant<Types...>>& Get(Variant<Types...>& v) {
     return GetTypeInVariant<typename TypeAt<TypeList<Types...>, I>::TargetType>(std::forward<decltype(v)>(v));
 }
 
-template<std::size_t I, typename... Types>
+template <std::size_t I, typename... Types>
 constexpr variant_alternative_t<I, Variant<Types...>>&& Get(Variant<Types...>&& v) {
     return GetTypeInVariant<typename TypeAt<TypeList<Types...>, I>::TargetType>(std::move(v));
 }
 
-template<typename T, typename... Types>
+template <typename T, typename... Types>
 constexpr const T& Get(Variant<Types...>& v) {
     return GetTypeInVariant<T>(v);
 }
 
-template<typename T, typename... Types>
+template <typename T, typename... Types>
 constexpr T&& Get(Variant<Types...>&& v) {
     return GetTypeInVariant<T>(std::move(v));
 }
