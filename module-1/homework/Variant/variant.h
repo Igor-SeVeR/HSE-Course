@@ -27,7 +27,6 @@ public:
     }
 
     friend struct UnionOperations;
-
 private:
     T head;
     UnionHolder<Index + 1, Types...> tail;
@@ -125,11 +124,9 @@ public:
 
     template<typename T, typename... AllTypes> friend
     auto&& GetTypeInVariant(Variant<AllTypes...>& val);
-
 private:
     UnionHolder<0, Types...> variantHolder;
 };
-
 
 template <typename... Types>
 constexpr Variant<Types...>::Variant() noexcept {};
@@ -142,7 +139,6 @@ Variant<Types...>& Variant<Types...>::operator=(T&& t) noexcept {
     UnionOperations::Set<foundIndex>(std::forward<T>(t), std::in_place_index<foundIndex>, this->variantHolder);
     return *this;
 }
-
 
 template <std::size_t I, typename... Types>
 constexpr const variant_alternative_t<I, Variant<Types...>>& Get(Variant<Types...>& v) {
@@ -163,5 +159,4 @@ template <typename T, typename... Types>
 constexpr T&& Get(Variant<Types...>&& v) {
     return GetTypeInVariant<T>(std::move(v));
 }
-
 };
