@@ -21,7 +21,7 @@ public:
     }
 
     ~UnionHolder() {
-        if (!std::is_trivially_constructible_v<T>) {
+        if (!std::is_trivially_destructible_v<T>) {
             head.~T();
         }
     }
