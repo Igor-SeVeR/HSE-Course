@@ -44,14 +44,16 @@ struct UnionOperations {
     }
 
     template <std::size_t Index, typename T, std::size_t UnionIndex, typename Head, typename... Tail>
-    static void Set(T&& val, std::in_place_index_t<0>, UnionHolder<UnionIndex, Head, Tail...>& curUnion) {
+    static void Set(T&& val, std::in_place_index_t<0>, 
+                    UnionHolder<UnionIndex, Head, Tail...>& curUnion) {
         if (std::is_same_v<T, Head> || std::is_convertible_v<T, Head>) {
             curUnion.head = val;
         }
     }
 
     template <std::size_t Index, typename T, std::size_t UnionIndex, typename Head, typename... Tail>
-    static void Set(T&& val, std::in_place_index_t<Index>, UnionHolder<UnionIndex, Head, Tail...>& curUnion) {
+    static void Set(T&& val, std::in_place_index_t<Index>, 
+                    UnionHolder<UnionIndex, Head, Tail...>& curUnion) {
         Set<Index - 1>(std::forward<T>(val), std::in_place_index<Index - 1>, curUnion.tail);
     }
 };
@@ -91,7 +93,8 @@ struct FindType {
     constexpr static bool check[sizeof...(Types)] = {std::is_same<TargetType, Types>::value...};
     constexpr static bool convertible[sizeof...(Types)] = {std::is_convertible<TargetType, Types>::value...};
     constexpr static std::size_t foundIndex = FindPosition(0, check);
-    constexpr static std::size_t convertibleIndex = foundIndex == -1 ? FindPosition(0, convertible) : foundIndex;
+    constexpr static std::size_t convertibleIndex = foundIndex == -1 ? 
+                                                        FindPosition(0, convertible) : foundIndex;
 };
 
 template <typename... Types>
@@ -111,7 +114,8 @@ struct VariantAlternative<Idx, Variant<Types...>> {
 template<typename TargetType, typename... Types>
 auto&& GetTypeInVariant(Variant<Types...>& val) {
     const std::size_t foundIndex = FindType<TargetType, Types...>::foundIndex;
-    return UnionOperations::Get(std::forward<Variant<Types...>>(val).variantHolder, std::in_place_index<foundIndex>);
+    return UnionOperations::Get(std::forward<Variant<Types...>>(val).variantHolder, 
+                                std::in_place_index<foundIndex>);
 }
 
 template <typename... Types>
@@ -136,7 +140,8 @@ template <typename T>
 Variant<Types...>& Variant<Types...>::operator=(T&& t) noexcept {
     const std::size_t foundIndex = FindType<T, Types...>::convertibleIndex;
     assert(foundIndex != -1);
-    UnionOperations::Set<foundIndex>(std::forward<T>(t), std::in_place_index<foundIndex>, this->variantHolder);
+    UnionOperations::Set<foundIndex>(std::forward<T>(t), std::in_place_index<foundIndex>, 
+                                     this->variantHolder);
     return *this;
 }
 
