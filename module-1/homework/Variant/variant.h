@@ -171,4 +171,4 @@ constexpr T&& Get(Variant<Types...>&& v) {
     return GetTypeInVariant<T>(std::move(v));
 }
 
-};
+}
