@@ -97,7 +97,7 @@ struct FindType {
     constexpr static bool convertible[sizeof...(Types)] = {
         std::is_convertible<TargetType, Types>::value...};
     constexpr static std::size_t foundIndex = FindPosition(0, check);
-    constexpr static std::size_t convertibleIndex = 
+    constexpr static std::size_t convertibleIndex =
         foundIndex == -1 ? FindPosition(0, convertible) : foundIndex;
 };
 
@@ -112,7 +112,7 @@ using variant_alternative_t = typename VariantAlternative<Idx, T>::type;
 
 template <size_t Idx, typename... Types>
 struct VariantAlternative<Idx, Variant<Types...>> {
-  using type = typename TypeAt<TypeList<Types...>, Idx>::TargetType;
+    using type = typename TypeAt<TypeList<Types...>, Idx>::TargetType;
 };
 
 template <typename TargetType, typename... Types>
