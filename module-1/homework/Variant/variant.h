@@ -14,9 +14,9 @@ union UnionHolder<Index> {};
 template <size_t Index, typename T, typename... Types>
 union UnionHolder<Index, T, Types...> {
 public:
-    UnionHolder() {
+    UnionHolder() : tail() {
         if (!std::is_trivially_constructible_v<T>) {
-            head = T();
+            new (&head) T();
         }
     }
 
