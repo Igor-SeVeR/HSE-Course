@@ -44,7 +44,7 @@ struct UnionOperations {
         return Get(std::forward<T>(val).tail, std::in_place_index<Index - 1>);
     }
 
-    template <std::size_t Index, typename T, std::size_t UnionIndex, typename Head, 
+    template <std::size_t Index, typename T, std::size_t UnionIndex, typename Head,
               typename... Tail>
     static void Set(T&& val, std::in_place_index_t<0>,
                     UnionHolder<UnionIndex, Head, Tail...>& curUnion) {
@@ -97,8 +97,8 @@ struct FindType {
     constexpr static bool convertible[sizeof...(Types)] = {
         std::is_convertible<TargetType, Types>::value...};
     constexpr static std::size_t foundIndex = FindPosition(0, check);
-    constexpr static std::size_t convertibleIndex = foundIndex == -1 ? 
-                                                        FindPosition(0, convertible) : foundIndex;
+    constexpr static std::size_t convertibleIndex = 
+        foundIndex == -1 ? FindPosition(0, convertible) : foundIndex;
 };
 
 template <typename... Types>
@@ -118,7 +118,7 @@ struct VariantAlternative<Idx, Variant<Types...>> {
 template <typename TargetType, typename... Types>
 auto&& GetTypeInVariant(Variant<Types...>& val) {
     const std::size_t foundIndex = FindType<TargetType, Types...>::foundIndex;
-    return UnionOperations::Get(std::forward<Variant<Types...>>(val).variantHolder, 
+    return UnionOperations::Get(std::forward<Variant<Types...>>(val).variantHolder,
                                 std::in_place_index<foundIndex>);
 }
 
@@ -145,14 +145,15 @@ template <typename T>
 Variant<Types...>& Variant<Types...>::operator=(T&& t) noexcept {
     const std::size_t foundIndex = FindType<T, Types...>::convertibleIndex;
     assert(foundIndex != -1);
-    UnionOperations::Set<foundIndex>(std::forward<T>(t), std::in_place_index<foundIndex>, 
+    UnionOperations::Set<foundIndex>(std::forward<T>(t), std::in_place_index<foundIndex>,
                                      this->variantHolder);
     return *this;
 }
 
 template <std::size_t I, typename... Types>
 constexpr const variant_alternative_t<I, Variant<Types...>>& Get(Variant<Types...>& v) {
-    return GetTypeInVariant<typename TypeAt<TypeList<Types...>, I>::TargetType>(std::forward<decltype(v)>(v));
+    return GetTypeInVariant<typename TypeAt<TypeList<Types...>, I>::TargetType>(
+        std::forward<decltype(v)>(v));
 }
 
 template <std::size_t I, typename... Types>
@@ -169,4 +170,5 @@ template <typename T, typename... Types>
 constexpr T&& Get(Variant<Types...>&& v) {
     return GetTypeInVariant<T>(std::move(v));
 }
+
 };
