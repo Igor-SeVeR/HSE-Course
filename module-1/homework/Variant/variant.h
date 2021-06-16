@@ -126,8 +126,8 @@ public:
     template <typename T>
     Variant& operator=(T&& t) noexcept;
 
-    template<typename T, typename... AllTypes> friend
-    auto&& GetTypeInVariant(Variant<AllTypes...>& val);
+    template<typename T, typename... AllTypes>
+    friend auto&& GetTypeInVariant(Variant<AllTypes...>& val);
 private:
     UnionHolder<0, Types...> variantHolder;
 };
