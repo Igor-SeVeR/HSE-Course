@@ -145,12 +145,12 @@ Variant<Types...>& Variant<Types...>::operator=(T&& t) noexcept {
 
 
 template<std::size_t I, typename... Types>
-constexpr const variant_alternative_t<I, Variant<Types...>>& get(Variant<Types...>& v) {
+constexpr const variant_alternative_t<I, Variant<Types...>>& Get(Variant<Types...>& v) {
     return GetTypeInVariant<typename TypeAt<TypeList<Types...>, I>::TargetType>(std::forward<decltype(v)>(v));
 }
 
 template<std::size_t I, typename... Types>
-constexpr variant_alternative_t<I, Variant<Types...>>&& get(Variant<Types...>&& v) {
+constexpr variant_alternative_t<I, Variant<Types...>>&& Get(Variant<Types...>&& v) {
     return GetTypeInVariant<typename TypeAt<TypeList<Types...>, I>::TargetType>(std::move(v));
 }
 
